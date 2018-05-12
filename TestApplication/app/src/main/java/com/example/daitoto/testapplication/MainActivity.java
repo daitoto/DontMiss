@@ -55,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -64,6 +66,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+
+        permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     activity,
                     PERMISSIONS_STORAGE,
@@ -113,14 +124,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Intent intent_login = new Intent();
-        intent_login.setClass(this, LoginActivity.class);
-        startActivity(intent_login);
+        verifyStoragePermissions(MainActivity.this);
+//
+//        Intent intent_login = new Intent();
+//        intent_login.setClass(this, LoginActivity.class);
+//        startActivity(intent_login);
 
         setContentView(R.layout.activity_main);
 //        iv_CameraImg = (ImageView) findViewById(R.id.camera);
-        verifyStoragePermissions(MainActivity.this);
+
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
