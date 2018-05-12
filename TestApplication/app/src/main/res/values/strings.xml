@@ -7,6 +7,9 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_album">Choose from Album</string>
     <string name="btn_camera">Camera</string>
+    <string name="title_calender">Calender</string>
+    <string name="title_society">Society</string>
+    <string name="title_user">User</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

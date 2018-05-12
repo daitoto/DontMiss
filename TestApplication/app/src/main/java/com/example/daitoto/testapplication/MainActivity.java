@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     button_calender_click();
                     return true;
                 case R.id.navigation_society:
-                    mTextMessage.setText(R.string.title_society);
+//                    mTextMessage.setText(R.string.title_society);
                     button_society_click();
                     return true;
                 case R.id.navigation_user:
@@ -100,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void button_society_click(){
+        Intent intent_submit = new Intent();
+        intent_submit.setClass(this, SubmitActivity.class);
+        startActivity(intent_submit);
         //TODO
     }
 
@@ -110,114 +113,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent_login = new Intent();
+        intent_login.setClass(this, LoginActivity.class);
+        startActivity(intent_login);
+
         setContentView(R.layout.activity_main);
-        iv_CameraImg = (ImageView) findViewById(R.id.camera);
+//        iv_CameraImg = (ImageView) findViewById(R.id.camera);
         verifyStoragePermissions(MainActivity.this);
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.menu_index, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id. btn_add:
-                add_photos();
-                break;
-
-            default:
-                break;
-
-        }
-        return true;
-    }
-
-    private  void add_photos()
-    {
-        final Dialog mdialog = new Dialog(MainActivity.this, R.style.photo_dialog);
-        mdialog.setContentView(View.inflate(MainActivity.this, R.layout.popup_window, null));
-        // 弹出对话框
-        Window window = mdialog.getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.gravity = Gravity.BOTTOM;
-        lp.y = 20;
-        window.setContentView(R.layout.popup_window);
-        final Button cancel = (Button) window.findViewById(R.id.btn_cancel);
-        final Button album = (Button) window.findViewById((R.id.btn_album));
-        final Button camera = (Button) window.findViewById((R.id.btn_camera));
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mdialog.dismiss();
-            }
-        });
-        album.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                photoActivity();
-                mdialog.dismiss();
-//                Toast.makeText(MainActivity.this, "Opening Album",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        camera.setOnClickListener(new View.OnClickListener() {
-
-            Intent intent = null;
-            @Override
-            public void onClick(View v) {
-                mdialog.dismiss();
-//                Toast.makeText(MainActivity.this, "Opening Camera",Toast.LENGTH_SHORT).show();
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                }
-                catch (IOException ex){
-                    ex.printStackTrace();
-                }
-                Uri uri = Uri.fromFile(photoFile);
-                intent = new Intent();
-                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(intent, 0);
-            }
-
-        });
-        mdialog.show();
-
-    }
-
-    String mPublicPhotoPath;
-    private File createImageFile() throws IOException {
-        File path = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM);
-        Log.i("toto", "path:" + path.getAbsolutePath());
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp;
-        Log.i("toto", path + "/" + imageFileName + ".jpg");
-        File image = File.createTempFile(imageFileName,".jpg", path);
-        mPublicPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        Log.v("toto", " res:" + resultCode);
-        if(resultCode != Activity.RESULT_OK) return;
-        File file = new File(mPublicPhotoPath);
-        Uri uri = Uri.fromFile(file);
-        Log.i("toto", uri.getEncodedPath());
-        iv_CameraImg.setImageURI(uri);
-
-    }
 
 }
