@@ -4,4 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_plus">Add</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_album">Choose from Album</string>
+    <string name="btn_camera">Camera</string>
 </resources>
