@@ -1,41 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Button
         android:id="@+id/btn_cancel"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="?android:attr/windowBackground"
+        android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf='parent'
+        android:padding="10dp"
         android:text="@string/btn_cancel" />
 
     <Button
         android:id="@+id/btn_album"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
         android:layout_marginBottom="40dp"
-        android:background="?android:attr/windowBackground"
+        android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf='parent'
+        android:padding="10dp"
         android:text="@string/btn_album" />
 
     <Button
         android:id="@+id/btn_camera"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
         android:layout_marginBottom="80dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf='parent'
-        android:text="@string/btn_camera" />
+        android:background="@android:color/background_light"
+        android:padding="10dp"
+        android:text="@string/btn_camera"
+        app:layout_constraintBottom_toBottomOf='parent' />
 
 </android.support.constraint.ConstraintLayout>

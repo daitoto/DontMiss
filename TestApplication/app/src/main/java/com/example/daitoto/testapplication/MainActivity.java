@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private  void add_photos()
     {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        final Dialog mdialog = new Dialog(MainActivity.this);
+        final Dialog mdialog = new Dialog(MainActivity.this, R.style.photo_dialog);
         mdialog.setContentView(View.inflate(MainActivity.this, R.layout.popup_window, null));
         // 弹出对话框
         Window window = mdialog.getWindow();
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                photoActivity();
                 mdialog.dismiss();
-                Toast.makeText(MainActivity.this, "Opening Album",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Opening Album",Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                takePhoto();
                 mdialog.dismiss();
-                Toast.makeText(MainActivity.this, "Opening Camera",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Opening Camera",Toast.LENGTH_SHORT).show();
 
             }
         });
