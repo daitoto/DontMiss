@@ -44,7 +44,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
+//    public String cookies;
     private TextView mTextMessage;
     private ViewPager mViewPager;
     private ImageView mImageView;
@@ -157,10 +157,10 @@ public class MainActivity extends AppCompatActivity {
 
         WebView.setWebContentsDebuggingEnabled(true);
 
-        myWebView.setWebViewClient(new WebViewClient());
+        myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.setWebChromeClient(new WebChromeClient());
 
-        myWebView.loadUrl("http://13.58.195.209:8080/");
+        myWebView.loadUrl("http://13.58.195.209:8080/mainboard");
 
     }
     private class MyWebViewClient extends WebViewClient{
@@ -174,8 +174,8 @@ public class MainActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url){
             Log.i("xxxxxxx", "pagefinished");
             getUrl = view.getUrl();
-            String cookies = CookieManager.getInstance().getCookie(getUrl);
-            Log.d("cookies", "All the cookies in a string:" + cookies);
+            Variables.cookies = CookieManager.getInstance().getCookie(getUrl);
+            Log.d("cookies",  Variables.cookies);
         }
     }
 

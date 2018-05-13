@@ -46,6 +46,9 @@ public class httpSend extends AsyncTask<String, Void, String> {
             // 7. Set some headers to inform server about the type of the content
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("Cookie", Variables.cookies);
+            Log.v("cookies_semd", Variables.cookies);
+
 
             // 8. Execute POST request to the given URL
             HttpResponse httpResponse = httpClient.execute(httpPost);
