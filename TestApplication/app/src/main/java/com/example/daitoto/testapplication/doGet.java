@@ -24,7 +24,6 @@ public class doGet extends AsyncTask<HttpGet, Void, String> {
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 35000);
         httpClient.getParams().setIntParameter(CoreConnectionPNames.MAX_LINE_LENGTH, 15000);
         httpClient.getParams().setIntParameter(CoreConnectionPNames.SOCKET_BUFFER_SIZE, 15000);
-
         String retStr;
         try {
             response = httpClient.execute(httpGets[0]);

@@ -6,7 +6,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.webkit.CookieManager;
 import android.widget.TextView;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
+
 import android.view.Menu;
 import android.view.Window;
 import android.view.View;
@@ -136,7 +142,56 @@ public class MainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        WebView myWebView = (WebView) findViewById(R.id.calendar_webview);
+        myWebView.requestFocus();
+        myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.getSettings().setAppCacheEnabled(false);
+        myWebView.getSettings().setDomStorageEnabled(true);
+        myWebView.getSettings().setSaveFormData(true);
+        myWebView.getSettings().setAllowFileAccess(true);
+        myWebView.getSettings().setAllowFileAccessFromFileURLs(true);
+        myWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        myWebView.setClickable(true);
+
+        WebView.setWebContentsDebuggingEnabled(true);
+
+        myWebView.setWebViewClient(new WebViewClient());
+        myWebView.setWebChromeClient(new WebChromeClient());
+
+        myWebView.loadUrl("http://13.58.195.209:8080/");
+
+    }
+    private class MyWebViewClient extends WebViewClient{
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url){
+            Log.i("xxxxxxx", "pagefinished");
+            getUrl = view.getUrl();
+            String cookies = CookieManager.getInstance().getCookie(getUrl);
+            Log.d("cookies", "All the cookies in a string:" + cookies);
+        }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCoder, KeyEvent event){
+        WebView webview = (WebView) findViewById(R.id.calendar_webview);
+
+        if(webview.canGoBack() && keyCoder == KeyEvent.KEYCODE_BACK){
+            webview.goBack();
+            return true;
+        }
+        return false;
+    }
+
+    private static String getUrl;
 
 }
+
+

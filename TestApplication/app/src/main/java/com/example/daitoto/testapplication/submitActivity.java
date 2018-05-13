@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.RadioButton;
 import android.widget.LinearLayout;
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.model.GeneralBasicParams;
@@ -40,6 +42,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TreeMap;
+
+import com.example.daitoto.testapplication.httpRequest;
+
+import org.json.JSONObject;
 
 public class SubmitActivity extends AppCompatActivity {
 
@@ -47,7 +54,9 @@ public class SubmitActivity extends AppCompatActivity {
     private int photo_num = 0;
     private ImageButton add_btn;
     private String[] file_paths = new String[4];
-    StringBuilder sb = new StringBuilder();
+    private int flag_done = 0;
+    private int type_radio = 0;
+    private String[] sb = new String[4];
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -71,6 +80,27 @@ public class SubmitActivity extends AppCompatActivity {
         }
     }
 
+    private void GetReminder(String res){
+        httpRequest htget = new httpRequest(SubmitActivity.this);
+        htget.execute("http://13.58.195.209:8080/get_wechat_token", res);
+        String token = htget.token;
+        Log.i("GetReminder", token);
+
+//        try{
+//            return  new JSONObject(resp);
+//        } catch (Exception er)
+//        {
+//            er.printStackTrace();
+//        }
+    }
+
+//    public void Acu(String res){
+//        Intent intent = new Intent();
+//        intent.setClass(SubmitActivity.this, AcuqActivity.class);
+//        intent.putExtra(AcuqActivity.RETURN_INFO, res);
+//        startActivity(intent);
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +112,7 @@ public class SubmitActivity extends AppCompatActivity {
             public void onResult(AccessToken result) {
                 // 调用成功，返回AccessToken对象
                 String token = result.getAccessToken();
+                Log.v("baidu", token);
             }
             @Override
             public void onError(OCRError error) {
@@ -89,7 +120,6 @@ public class SubmitActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         }, getApplicationContext(), "rNy1WWx02WfnvL4oN3NoQDlH", "Pd13xYGX1G8Ot70Zbm3EtaMfFZYYGuDS");
-
         img_view = (ImageView) findViewById(R.id.imgview_1);
         add_btn = (ImageButton) findViewById(R.id.imgbtn);
         add_btn.setOnClickListener(new View.OnClickListener() {
@@ -100,16 +130,49 @@ public class SubmitActivity extends AppCompatActivity {
             }
         });
         final Button sub_btn = (Button) findViewById(R.id.btn_sub);
+        final RadioGroup radgroup = (RadioGroup) findViewById(R.id.radio_g);
         sub_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sb = new StringBuilder();
-                for(int x = 0; x < photo_num; x = x + 1)
-                {
-                    Log.v("submit", file_paths[x]);
-                    sumbit(file_paths[x]);
-                    Log.i("submit_string", String.valueOf(sb.length()));
+                for (int i = 0; i < radgroup.getChildCount(); i++) {
+                    RadioButton rd = (RadioButton) radgroup.getChildAt(i);
+                    if (rd.isChecked()) {
+                        type_radio = i;
+                        break;
+                    }
                 }
+                switch (type_radio)
+                {
+                    case 0:
+                        //sj
+
+                        String[] res = sb[0].split("\n");
+                        String ans = res[0];
+                        for(int i = 0; i < res.length; i += 1){
+                            if (res[i].length() > ans.length())
+                                    ans = res[i];
+                        }
+                        Log.v("ans", ans);
+                        GetReminder(ans);
+//                        Log.v("res", str);
+                        break;
+
+                    case 1:
+                        //sw
+
+                        //TODO
+                        break;
+
+                    case 2:
+                        //hzp
+                        //TODO
+                        break;
+
+                    default:
+                        break;
+                }
+                Log.v("sb", sb[0] + sb[1] + sb[2] + String.valueOf(type_radio));
+//                sendmsg();
             }
         });
 
@@ -137,6 +200,9 @@ public class SubmitActivity extends AppCompatActivity {
         }
     };
     public void button_calender_click(){
+        Intent intent = new Intent();
+        intent.setClass(SubmitActivity.this, MainActivity.class);
+        startActivity(intent);
         //TODO
     }
 
@@ -196,18 +262,18 @@ public class SubmitActivity extends AppCompatActivity {
 //                photoActivity();
                 mdialog.dismiss();
                 Toast.makeText(SubmitActivity.this, "Opening Album",Toast.LENGTH_SHORT).show();
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                }
-                catch (IOException ex){
-                    ex.printStackTrace();
-                }
-                Uri uri = Uri.fromFile(photoFile);
+//                File photoFile = null;
+//                try {
+//                    photoFile = createImageFile();
+//                }
+//                catch (IOException ex){
+//                    ex.printStackTrace();
+//                }
+//                Uri uri = Uri.fromFile(photoFile);
 
                 Intent intentToPickPic = new Intent(Intent.ACTION_PICK, null);
                 intentToPickPic.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                intentToPickPic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//                intentToPickPic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 startActivityForResult(intentToPickPic, 1);
             }
         });
@@ -285,6 +351,7 @@ public class SubmitActivity extends AppCompatActivity {
                     img_view = (ImageView) findViewById(R.id.imgview_3);
                 } else
                     img_view = (ImageView) findViewById(R.id.imgview_2);
+                sumbit(mPublicPhotoPath);
                 break;
 
             case 1:
@@ -304,6 +371,7 @@ public class SubmitActivity extends AppCompatActivity {
                     img_view = (ImageView) findViewById(R.id.imgview_3);
                 } else
                     img_view = (ImageView) findViewById(R.id.imgview_2);
+                sumbit(file_paths[photo_num - 1]);
                 break;
         }
     }
@@ -320,14 +388,17 @@ public class SubmitActivity extends AppCompatActivity {
                 // 调用成功，返回GeneralResult对象
                 for (WordSimple wordSimple : result.getWordList()) {
                     // wordSimple不包含位置信息
-                    Word word = (Word) wordSimple;
-                    sb.append(word.getWords());
-                    sb.append("\n");
+                    WordSimple word = wordSimple;
+                   sb[flag_done] += word.getWords() + "\n";
                 }
+                Log.v("sb", sb[flag_done]);
+//                Log.v("signal", String.valueOf(type_radio));
+                flag_done = flag_done + 1;
             }
             @Override
             public void onError(OCRError error) {
                 // 调用失败，返回OCRError对象
+                error.printStackTrace();
             }
         });
     }

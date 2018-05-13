@@ -56,6 +56,31 @@
         android:text="Submit"
         app:layout_constraintBottom_toTopOf="parent"
         android:layout_marginBottom="50dp"/>
+    <RadioGroup
+        android:id="@+id/radio_g"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/btn_sub">
+        <RadioButton
+            android:id="@+id/radio_sj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="事件类"
+            android:checked="true" />
+        <RadioButton
+            android:id='@+id/radio_sp'
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="食品类"
+            android:checked="false" />
+        <RadioButton
+            android:id="@+id/radio_hz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="化妆品"
+            android:checked="false" />
+    </RadioGroup>
 
 
 </android.support.constraint.ConstraintLayout>
